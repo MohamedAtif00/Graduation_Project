@@ -18,7 +18,7 @@ namespace Graduation_Project.Application.CQRS.TrainerFeature.AddTrainer
         {
             try
             {
-                var result = await _unitOfWork.TrainerRepository.Add(Trainer.Create(request.birthdate,request.exp,request.specia,request.phone,request.email)); ;
+                var result = await _unitOfWork.TrainerRepository.Add(Trainer.Create(request.username,request.birthdate,request.exp,request.specia,request.phone,request.email)); ;
 
                 int saving = await _unitOfWork.save();
 

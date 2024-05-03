@@ -1,23 +1,33 @@
-﻿using Graduation_Project.Domain.Abstraction;
-
-namespace Graduation_Project.Domain.Entity.UserDomain
+﻿namespace Graduation_Project.Domain.Entity.UserDomain
 {
-    public class TimeSession : Entity<TimeSessionId>
+    public class TimeSession
     {
-        public TimeSpan Time { get;private set; }
-        public TimeSession(TimeSessionId id, TimeSpan time) : base(id)
+        public int Hour { get; set; }
+        public int Minute { get; set; }
+        public string AmPm { get; set; }
+
+        public TimeSession(int hour, int minute, string amPm)
         {
-            Time = time;
+            Hour = hour;
+            Minute = minute;
+            AmPm = amPm;
         }
 
-        public static TimeSession Create(TimeSpan time)
+        public override string ToString()
         {
-            return new(TimeSessionId.CreateUnique(),time) ;
+            return $"{Hour:00}:{Minute:00} {AmPm}";
         }
 
-        public void Update(TimeSpan time)
+        public static TimeSession Parse(string time)
         {
-            Time = time;
+            var parts = time.Split(':', ' ');
+            int hour = int.Parse(parts[0]);
+            int minute = int.Parse(parts[1]);
+            string amPm = parts[2];
+            return new TimeSession(hour, minute, amPm);
         }
+
+
+
     }
 }

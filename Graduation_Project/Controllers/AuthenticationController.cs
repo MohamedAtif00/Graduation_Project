@@ -6,6 +6,7 @@ using Graduation_Project.Application.Abstraction;
 using Graduation_Project.Application.DTOs.Authentication;
 using MediatR;
 using Graduation_Project.Application.CQRS.UserFeature.AddUser;
+using Graduation_Project.Domain.Entity.UserDomain;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -42,11 +43,13 @@ namespace Graduation_Project.Controllers
 
         // POST api/<AuthenticationController>
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        public async Task<IActionResult> Register([FromForm] RegisterRequest request)
         {
-            var result = await _authenticationService.Register(request.username, request.email, request.password, "User");
+            var result = await _authenticationService.Register($"{request.firstName+request.lastName}", request.email, request.password, "User");
 
             if (result.Value != null && result.Errors.Count() == 0) await _mediator.Send(new AddUserCommand(result.Value.UserId,
+                                                                                                            request.firstName,
+                                                                                                            request.lastName,
                                                                                                             request.birthDate,
                                                                                                             request.nationalId,
                                                                                                             request.city,
@@ -54,6 +57,8 @@ namespace Graduation_Project.Controllers
                                                                                                             request.image,
                                                                                                             request.gender,
                                                                                                             request.tennisCourt,
+                                                                                                            request.TennisExp,
+                                                                                                            new TimeSession(request.timeSession.Hours,request.timeSession.Minutes,request.timeSession.AmPm),
                                                                                                             request.trainerId,
                                                                                                             request.hasHealthCondition,
                                                                                                             request.detials));
@@ -64,7 +69,7 @@ namespace Graduation_Project.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var result = await _authenticationService.Login(request.username, request.password, "User");
+            var result = await _authenticationService.Login(request.email, request.password, "User");
 
             return Ok(result);
         }
@@ -72,7 +77,7 @@ namespace Graduation_Project.Controllers
         [HttpPost("LoginAdmin")]
         public async Task<IActionResult> LoginAdmin([FromBody] LoginRequest request)
         {
-            var result = await _authenticationService.Login(request.username, request.password, "Admin");
+            var result = await _authenticationService.Login(request.email, request.password, "Admin");
 
             return Ok(result);
         }

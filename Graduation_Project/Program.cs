@@ -20,6 +20,17 @@ namespace Graduation_Project
 
             builder.Services.AddInfrastructure(configuration).AddApplication();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowOrigin",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                               .AllowAnyMethod()
+                               .AllowAnyHeader();
+                    });
+            });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -53,7 +64,7 @@ namespace Graduation_Project
 
             app.MapControllers();
 
-            
+            app.UseCors("AllowOrigin");
 
             app.Run();
         }

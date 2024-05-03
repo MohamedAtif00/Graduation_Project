@@ -116,22 +116,22 @@ namespace Graduation_Project.Application.Services
         }
 
 
-        public async Task<Result<JwtTokenDto>> Login(string username, string password, string role)
+        public async Task<Result<JwtTokenDto>> Login(string email, string password, string role)
         {
             try
             {
                 IdentityUser<Guid> user = new();
                 var jwttokenDto = new JwtTokenDto();
-                if (username == null || password == null)
+                if (email == null || password == null)
                 {
                     return Result.Error("invalid input");
                 }
-                if (string.IsNullOrEmpty(username))
+                if (string.IsNullOrEmpty(email))
                 {
                     return Result.Error("username is required");
                 }
 
-                user = await _userManager.FindByNameAsync(username);
+                user = await _userManager.FindByEmailAsync(email);
 
                 if (user == null)
                 {
@@ -163,7 +163,7 @@ namespace Graduation_Project.Application.Services
                 jwttokenDto.JwtToken = jwtToken;
                 jwttokenDto.Role = role;
                 jwttokenDto.UserId = user.Id;
-                jwttokenDto.Username = username;
+                jwttokenDto.Username = user.UserName??"";
                 jwttokenDto.RefreshToken = refreshToken;
                 jwttokenDto.Error = string.Empty;
 

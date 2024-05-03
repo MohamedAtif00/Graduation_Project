@@ -1,4 +1,4 @@
 ﻿namespace Graduation_Project.Application.DTOs.Authentication
 {
-    public record LoginRequest(string username, string password);
+    public record LoginRequest(string email, string password);
 }

@@ -26,7 +26,14 @@ namespace Graduation_Project.Application.CQRS.UserFeature.AddUser
                     file = memoryStream.ToArray();
                 }
 
-                var result = await _unitOfWork.UserRepository.Add(User.Create(request.userId,request.birthDate,request.nationalId,request.city,request.phone,file,request.gender,request.tennisCourt,TrainerId.Create(request.trainerId),request.hasHealthCondition?HealthCondition.Create(request.healthDetails):null));
+                //if (request.timeSession != TimeSession.eightAm
+                //    || request.timeSession != TimeSession.nineAm
+                //    || request.timeSession != TimeSession.eightAm
+                //    || request.timeSession != TimeSession.fivePm
+                //    || request.timeSession != TimeSession.seventPm
+                //    || request.timeSession != TimeSession.ninePm) return Result.Error("invalid time");
+
+                var result = await _unitOfWork.UserRepository.Add(User.Create(request.userId,request.firstName,request.secondName,request.birthDate,request.nationalId,request.city,request.phone,file,request.gender,request.tennisCourt,request.TennisExp,request.timeSession,TrainerId.Create(request.trainerId),request.hasHealthCondition?HealthCondition.Create(request.healthDetails):null));
 
                 int saving = await _unitOfWork.save();
 

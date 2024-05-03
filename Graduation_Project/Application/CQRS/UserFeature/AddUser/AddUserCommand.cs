@@ -4,7 +4,7 @@ using Graduation_Project.Domain.Entity.UserDomain;
 
 namespace Graduation_Project.Application.CQRS.UserFeature.AddUser
 {
-    public record AddUserCommand(Guid userId, DateTime birthDate, string nationalId, string city, string phone, IFormFile image,Gender gender, TennisCourt tennisCourt, Guid trainerId,bool hasHealthCondition,string healthDetails = null) :ICommand;
+    public record AddUserCommand(Guid userId,string firstName,string secondName, DateTime birthDate, string nationalId, string city, string phone, IFormFile image,Gender gender, TennisCourt tennisCourt,TennisExp TennisExp,TimeSession    timeSession, Guid trainerId,bool hasHealthCondition,string healthDetails = null) :ICommand;
     
     
 }
