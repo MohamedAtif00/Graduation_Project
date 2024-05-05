@@ -18,6 +18,7 @@ namespace Graduation_Project.Infrastructure.Data
         public DbSet<RefreshToken> refreshTokens { get; set; }
         public DbSet<User> users { get; set; }
         public DbSet<Trainer> trainers { get; set; }
+        public DbSet<TrainerRating> trainerRatings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

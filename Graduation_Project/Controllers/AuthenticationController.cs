@@ -7,6 +7,7 @@ using Graduation_Project.Application.DTOs.Authentication;
 using MediatR;
 using Graduation_Project.Application.CQRS.UserFeature.AddUser;
 using Graduation_Project.Domain.Entity.UserDomain;
+using Graduation_Project.Application.CQRS.UserFeature.GetSingleUser;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -36,10 +37,13 @@ namespace Graduation_Project.Controllers
 
         // GET api/<AuthenticationController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            return "value";
+            var result  = await _mediator.Send(new GetSingleUserQuery(id));
+
+            return Ok(result);
         }
+
 
         // POST api/<AuthenticationController>
         [HttpPost("Register")]
@@ -87,13 +91,31 @@ namespace Graduation_Project.Controllers
         {
         }
 
-        // DELETE api/<AuthenticationController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpGet("AllowAccess/{token}")]
+        public async Task<IActionResult> AllowAccess(string token)
         {
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+
+            var claims = jsonToken.Claims;
+
+            var claimIdenity = new ClaimsIdentity(jsonToken.Claims);
+            var principle = new ClaimsPrincipal(claimIdenity);
+            string userid = claims.FirstOrDefault(x => x.Type == "userid").Value;
+            string username = claims.FirstOrDefault(x => x.Type == "username").Value;
+            string email = claims.FirstOrDefault(x => x.Type == "email").Value;
+            string role = claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value;
+
+            var user = _userManager.FindByNameAsync(username);
+            if (user == null) return NotFound("this user is not exist");
+
+
+            var response = new AllowAccessResponse(userid, username, role, email, token);
+
+            return Ok(response);
         }
 
-        
+
 
     }
 }

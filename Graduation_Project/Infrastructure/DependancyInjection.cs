@@ -76,6 +76,7 @@ namespace Graduation_Project.Infrastructure
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITrainerRepository, TrainerRepository>();
+            services.AddScoped<ITrainerRatingRepository, TrainerRatingRepository>();
 
             return services;
         }

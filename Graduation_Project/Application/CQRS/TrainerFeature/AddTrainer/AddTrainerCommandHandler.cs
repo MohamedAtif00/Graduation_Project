@@ -18,7 +18,14 @@ namespace Graduation_Project.Application.CQRS.TrainerFeature.AddTrainer
         {
             try
             {
-                var result = await _unitOfWork.TrainerRepository.Add(Trainer.Create(request.username,request.birthdate,request.exp,request.specia,request.phone,request.email)); ;
+                byte[] file;
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    request.image.CopyTo(memoryStream);
+                    file = memoryStream.ToArray();
+                }
+
+                var result = await _unitOfWork.TrainerRepository.Add(Trainer.Create(request.username,file,request.birthdate,request.exp,request.specia,request.phone,request.email)); ;
 
                 int saving = await _unitOfWork.save();
 

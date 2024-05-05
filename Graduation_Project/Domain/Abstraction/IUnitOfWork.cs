@@ -9,6 +9,7 @@ namespace Graduation_Project.Domain.Abstraction
         IRefreshTokenRepository RefreshTokenRepository { get; }
         IUserRepository UserRepository { get; }
         ITrainerRepository TrainerRepository { get; }
+        ITrainerRatingRepository TrainerRatingRepository { get; }
 
         //IRefreshTokenRepository RefreshTokenRepository { get; }
 

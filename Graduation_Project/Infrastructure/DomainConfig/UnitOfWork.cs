@@ -9,13 +9,14 @@ namespace Graduation_Project.Infrastructure.DomainConfig
     public class UnitOfWork : IUnitOfWork
     {
         public readonly ApplicationDbContext _applicationDbContext;
-        public UnitOfWork(ApplicationDbContext applicationDbContext, IRefreshTokenRepository refreshTokenRepository, IUserRepository userRepository, ITrainerRepository trainerRepository)
+        public UnitOfWork(ApplicationDbContext applicationDbContext, IRefreshTokenRepository refreshTokenRepository, IUserRepository userRepository, ITrainerRepository trainerRepository, ITrainerRatingRepository trainerRatingRepository)
         {
             _applicationDbContext = applicationDbContext;
 
             RefreshTokenRepository = refreshTokenRepository;
             UserRepository = userRepository;
             TrainerRepository = trainerRepository;
+            TrainerRatingRepository = trainerRatingRepository;
         }
 
 
@@ -23,7 +24,7 @@ namespace Graduation_Project.Infrastructure.DomainConfig
         public IRefreshTokenRepository RefreshTokenRepository { get; }
         public IUserRepository UserRepository { get; }
         public ITrainerRepository TrainerRepository { get; }
-
+        public ITrainerRatingRepository TrainerRatingRepository { get; }
 
         public async Task<int> save()
         {
