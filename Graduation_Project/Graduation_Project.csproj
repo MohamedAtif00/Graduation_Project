@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="Application\DTOs\Trainer\request\" />
-    <Folder Include="Domain\Entity\NewFolder\" />
   </ItemGroup>
 
 </Project>

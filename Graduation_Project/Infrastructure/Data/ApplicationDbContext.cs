@@ -1,4 +1,5 @@
 ﻿using Graduation_Project.Domain.Entity.RefreshTokenDomain;
+using Graduation_Project.Domain.Entity.TournamentDomain;
 using Graduation_Project.Domain.Entity.TrainerDomain;
 using Graduation_Project.Domain.Entity.UserDomain;
 using Microsoft.AspNetCore.Identity;
@@ -19,6 +20,7 @@ namespace Graduation_Project.Infrastructure.Data
         public DbSet<User> users { get; set; }
         public DbSet<Trainer> trainers { get; set; }
         public DbSet<TrainerRating> trainerRatings { get; set; }
+        public DbSet<Tournament> tournaments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

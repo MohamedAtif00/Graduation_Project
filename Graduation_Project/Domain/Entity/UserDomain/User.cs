@@ -1,4 +1,5 @@
 ﻿using Graduation_Project.Domain.Abstraction;
+using Graduation_Project.Domain.Entity.TournamentDomain;
 using Graduation_Project.Domain.Entity.TrainerDomain;
 using Microsoft.AspNetCore.Identity;
 using System.Text.Json.Serialization;
@@ -11,7 +12,7 @@ namespace Graduation_Project.Domain.Entity.UserDomain
         {
             
         }
-        public User(UserId id,string firstName,string secondName ,DateTime birthDate, string nationalId, string city, string phone, byte[] image ,Gender gender,TennisCourt tennisCourt,TennisExp tennisExp ,TimeSession timeSession,TrainerId trainerId, HealthCondition healthCondition = null) : base(id)
+        public User(UserId id,string firstName,string secondName ,DateTime birthDate, string nationalId, string city, string phone, byte[] image ,Gender gender,TennisCourt tennisCourt,TennisExp tennisExp ,TimeSession timeSession,TrainerId trainerId, HealthCondition healthCondition = null, TournamentId tournamentId = null) : base(id)
         {
             FirstName = firstName;
             SecondName = secondName;
@@ -25,6 +26,7 @@ namespace Graduation_Project.Domain.Entity.UserDomain
             TennisCourt = tennisCourt;
             TimeSession = timeSession;
             TrainerId = trainerId;
+            TournamentId = tournamentId;
             HealthCondition = healthCondition;
         }
         public string FirstName { get;private set; }
@@ -39,12 +41,19 @@ namespace Graduation_Project.Domain.Entity.UserDomain
         public TennisExp TennisExp { get; private set; }
         public TimeSession TimeSession { get; private set; }
         public TrainerId TrainerId { get; private set; }
+        public TournamentId? TournamentId { get; private set; } 
         public HealthCondition? HealthCondition { get; private set; }
 
-        public static User Create(Guid userId,string firstName,string secondName, DateTime birthDate, string nationalId, string city, string phone, byte[] image,Gender gender,TennisCourt tennisCourt,TennisExp tennisExp,TimeSession timeSession, TrainerId trainerId, HealthCondition healthCondition = null)
+        public static User Create(Guid userId,string firstName,string secondName, DateTime birthDate, string nationalId, string city, string phone, byte[] image,Gender gender,TennisCourt tennisCourt,TennisExp tennisExp,TimeSession timeSession, TrainerId trainerId,HealthCondition healthCondition = null)
         {
-            return new(UserId.Create(userId),firstName,secondName, birthDate, nationalId, city, phone, image,gender,tennisCourt,tennisExp,timeSession, trainerId, healthCondition);
+            return new(UserId.Create(userId),firstName,secondName, birthDate, nationalId, city, phone, image,gender,tennisCourt,tennisExp,timeSession, trainerId,healthCondition,null);
         }
+
+        public void AddTournament(TournamentId tournamentId)
+        { 
+            this.TournamentId = tournamentId;
+        }
+
     }
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum TennisCourt {

@@ -27,12 +27,15 @@ namespace Graduation_Project.Domain.Entity.TrainerDomain
             return new(TrainerId.CreateUnique(),username,birthdate,exp,specia,phone,email,image);
         }
 
-        public void Update()
+        public void Update(string username, byte[] image, DateTime birthdate, int exp, string specia, string phone, string email)
         {
-            Experience = Experience;
-            Specialization = Specialization;
-            Phone = Phone;
-            Email = Email;
+            Username = username;
+            BirthDate = birthdate;
+            Experience = exp;
+            Specialization = specia;
+            Phone = phone;
+            Email = email;
+            this.image = image;
         }
 
     }

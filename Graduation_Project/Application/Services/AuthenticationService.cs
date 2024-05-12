@@ -131,7 +131,14 @@ namespace Graduation_Project.Application.Services
                     return Result.Error("username is required");
                 }
 
-                user = await _userManager.FindByEmailAsync(email);
+                if (role == "User")
+                {
+                    user = await _userManager.FindByEmailAsync(email);
+
+                }
+                else { 
+                    user = await _userManager.FindByNameAsync(email);
+                }
 
                 if (user == null)
                 {

@@ -1,8 +1,10 @@
 ﻿using Graduation_Project.Application.CQRS.TrainerFeature.AddRating;
 using Graduation_Project.Application.CQRS.TrainerFeature.AddTrainer;
+using Graduation_Project.Application.CQRS.TrainerFeature.DeleteTrainer;
 using Graduation_Project.Application.CQRS.TrainerFeature.GetAllRating;
 using Graduation_Project.Application.CQRS.TrainerFeature.GetAllTrainers;
 using Graduation_Project.Application.CQRS.TrainerFeature.GetSingleTrainer;
+using Graduation_Project.Application.CQRS.TrainerFeature.UpdateTrainer;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -57,6 +59,15 @@ namespace Graduation_Project.Controllers
         }
 
         // POST api/<TrainerController>
+        [HttpPost("UpdateTrainer")]
+        public async Task<IActionResult> Post([FromForm] UpdateTrainerCommand request)
+        {
+            var result = await _mediator.Send(request);
+
+            return Ok(result);
+        }
+
+        // POST api/<TrainerController>
         [HttpPost("RateTrainer")]
         public async Task<IActionResult> Post([FromBody] AddRatingCommand request)
         {
@@ -73,8 +84,11 @@ namespace Graduation_Project.Controllers
 
         // DELETE api/<TrainerController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete( Guid id)
         {
+            var result = await _mediator.Send(new DeleteTrainerCommand(id));
+
+            return Ok(result);
         }
     }
 }
