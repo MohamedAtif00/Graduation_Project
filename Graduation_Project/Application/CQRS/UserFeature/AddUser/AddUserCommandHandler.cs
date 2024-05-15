@@ -33,7 +33,7 @@ namespace Graduation_Project.Application.CQRS.UserFeature.AddUser
                 //    || request.timeSession != TimeSession.seventPm
                 //    || request.timeSession != TimeSession.ninePm) return Result.Error("invalid time");
 
-                var result = await _unitOfWork.UserRepository.Add(User.Create(request.userId,request.firstName,request.secondName,request.birthDate,request.nationalId,request.city,request.phone,file,request.gender,request.tennisCourt,request.TennisExp,request.timeSession,TrainerId.Create(request.trainerId),request.hasHealthCondition?HealthCondition.Create(request.healthDetails):null));
+                var result = await _unitOfWork.UserRepository.Add(User.Create(request.userId,request.firstName,request.secondName,request.birthDate,request.nationalId,request.city,request.phone,file,request.gender,request.TennisExp,request.StartDay,request.timeSession,request.hasHealthCondition?HealthCondition.Create(request.healthDetails):null));
 
                 int saving = await _unitOfWork.save();
 

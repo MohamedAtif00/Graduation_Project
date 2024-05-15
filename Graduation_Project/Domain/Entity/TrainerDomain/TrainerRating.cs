@@ -23,6 +23,7 @@ namespace Graduation_Project.Domain.Entity.TrainerDomain
         }
 
         
+        
 
 
 

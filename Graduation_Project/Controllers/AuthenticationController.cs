@@ -8,6 +8,10 @@ using MediatR;
 using Graduation_Project.Application.CQRS.UserFeature.AddUser;
 using Graduation_Project.Domain.Entity.UserDomain;
 using Graduation_Project.Application.CQRS.UserFeature.GetSingleUser;
+using Graduation_Project.Application.CQRS.UserFeature.ValidateUser;
+using Graduation_Project.Application.CQRS.UserFeature.AddTrainer;
+using System.Linq.Expressions;
+using Graduation_Project.Application.CQRS.UserFeature.GetAllUsers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -30,9 +34,11 @@ namespace Graduation_Project.Controllers
 
         // GET: api/<AuthenticationController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            var result = await _mediator.Send(new GetAllUserQuery());
+
+            return Ok(result);
         }
 
         // GET api/<AuthenticationController>/5
@@ -60,15 +66,32 @@ namespace Graduation_Project.Controllers
                                                                                                             request.phone,
                                                                                                             request.image,
                                                                                                             request.gender,
-                                                                                                            request.tennisCourt,
-                                                                                                            request.TennisExp,
+                                                                                                            request.tennisExp,
+                                                                                                            request.startDay,
                                                                                                             new TimeSession(request.timeSession.Hours,request.timeSession.Minutes,request.timeSession.AmPm),
-                                                                                                            request.trainerId,
                                                                                                             request.hasHealthCondition,
                                                                                                             request.detials));
 
             return Ok(result);
         }
+
+        [HttpPost("AddTrainerToUser")]
+        public async Task<IActionResult> AddTrainer(AddTrainerAndCourtCommand request)
+        {
+            var result = await _mediator.Send(request);
+
+            return Ok(result);
+        }
+
+
+        [HttpPost("CheckDate")]
+        public async Task<IActionResult> CheckDate(CheckDateDTO request)
+        {
+            var result = await _mediator.Send(new ValidateUserQuery(request.startDay, new TimeSession(request.timeSession.Hours, request.timeSession.Minutes, request.timeSession.AmPm)));
+
+            return Ok(result);
+        }
+
 
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
