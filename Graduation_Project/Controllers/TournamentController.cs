@@ -1,4 +1,5 @@
 ﻿using Graduation_Project.Application.CQRS.TournamentFeature.AddTournament;
+using Graduation_Project.Application.CQRS.TournamentFeature.DeleteTournament;
 using Graduation_Project.Application.CQRS.TournamentFeature.GetAllTournament;
 using Graduation_Project.Application.CQRS.TournamentFeature.GetUsersInTournament;
 using Graduation_Project.Application.CQRS.UserFeature.AddToTournament;
@@ -64,8 +65,11 @@ namespace Graduation_Project.Controllers
 
         // DELETE api/<TournamentController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
+            var result = await _mediator.Send(new DeleteTournamentCommand(id));
+
+            return Ok(result);
         }
     }
 }
